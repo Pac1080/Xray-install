@@ -5,6 +5,9 @@ Bash script for installing Xray in operating systems such as CentOS / Debian / O
 [Filesystem Hierarchy Standard (FHS)](https://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard)
 
 ```
+installed: /etc/systemd/system/xray.service
+installed: /etc/systemd/system/xray@.service
+
 installed: /usr/local/bin/xray
 installed: /usr/local/etc/xray/*.json
 
@@ -13,27 +16,56 @@ installed: /usr/local/share/xray/geosite.dat
 
 installed: /var/log/xray/access.log
 installed: /var/log/xray/error.log
-
-installed: /etc/systemd/system/xray.service
-installed: /etc/systemd/system/xray@.service
 ```
 
-## Usage
+Notice: Xray will NOT log to `/var/log/xray/*.log` by default. Configure `"log"` to specify log files.
 
-### Install & Upgrade Xray-core and .dat files
+## Basic Usage
 
-```
-# bash <(curl -L https://raw.githubusercontent.com/XTLS/Xray-install/main/install-release.sh)
-```
-
-### Update geoip.dat and geosite.dat only
+**Install & Upgrade Xray-core and geodata with `User=nobody`, but will NOT overwrite `User` in existing service files**
 
 ```
-# bash <(curl -L https://raw.githubusercontent.com/XTLS/Xray-install/main/install-dat-release.sh)
+# bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ install
 ```
 
-### Remove Xray, except json and logs
+**Update geoip.dat and geosite.dat only**
 
 ```
-# bash <(curl -L https://raw.githubusercontent.com/XTLS/Xray-install/main/install-release.sh) --remove
+# bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ install-geodata
 ```
+
+**Remove Xray, except json and logs**
+
+```
+# bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ remove
+```
+
+## Advance
+
+**Install & Upgrade Xray-core and geodata with `User=root`, which will overwrite `User` in existing service files**
+
+```
+# bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ install -u root
+```
+
+**Install & Upgrade Xray-core without geodata**
+
+```
+# bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ install --without-geodata
+```
+
+**Remove Xray, include json and logs**
+
+```
+# bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ remove --purge
+```
+
+## More Usage
+
+```
+# bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ help
+```
+
+## Stargazers over time
+
+[![Stargazers over time](https://starchart.cc/XTLS/Xray-install.svg)](https://starchart.cc/XTLS/Xray-install)
